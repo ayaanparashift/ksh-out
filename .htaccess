@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 🔥 Special fix: if user requests "/blogs", force it to "blogs.html"
+  RewriteCond %{REQUEST_URI} ^/blogs/?$
+  RewriteRule ^blogs/?$ blogs.html [L]
+
+  # ✅ If the file or directory exists, serve it
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # ✅ Rewrite URLs to .html files
+  RewriteRule ^([^/]+)$ $1.html [L]
+  RewriteRule ^(.+)/([^/]+)$ $1/$2.html [L]
+</IfModule>
+
+DirectoryIndex index.html
+Options -Indexes
